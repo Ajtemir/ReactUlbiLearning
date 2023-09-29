@@ -12,12 +12,17 @@ function App() {
     ]);
 
     const [title, setTitle] = useState('Тема по дефолту...')
-    const bodyInputRef = useRef();
+    const [body, setBody] = useState('Описание по дефолту...')
+
 
     const addNewPost = (e) => {
         e.preventDefault()
-        console.log(title)
-        console.log(bodyInputRef.current.value)
+        const newPost = {
+            id: Date.now(),
+            title,
+            body,
+        }
+        console.log(newPost)
     }
 
   return (
@@ -34,7 +39,8 @@ function App() {
 
             {/*Неуправляемый компонент*/}
             <MyInput
-                ref={bodyInputRef}
+                value={body}
+                onChange={e => setBody(e.target.value)}
                 type="text"
                 placeholder="Описание поста"
             />
