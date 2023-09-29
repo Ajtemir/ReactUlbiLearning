@@ -28,7 +28,7 @@ function App() {
                 placeholder="Название поста"
             />
             <MyInput type="text" placeholder="Описание поста"/>
-            <MyButton onclick={addNewPost}>Создать пост</MyButton>
+            <MyButton onClick={addNewPost}>Создать пост</MyButton>
         </form>
         <PostList posts={posts} title='Посты про JS'/>
     </div>
