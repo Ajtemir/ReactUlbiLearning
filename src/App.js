@@ -32,13 +32,12 @@ function App() {
                 placeholder="Название поста"
             />
 
-            <input ref={bodyInputRef} type="text"/>
-
-            {/*<MyInput*/}
-            {/*    ref={bodyInputRef}*/}
-            {/*    type="text"*/}
-            {/*    placeholder="Описание поста"*/}
-            {/*/>*/}
+            {/*Неуправляемый компонент*/}
+            <MyInput
+                ref={bodyInputRef}
+                type="text"
+                placeholder="Описание поста"
+            />
 
             <MyButton onClick={addNewPost}>Создать пост</MyButton>
         </form>
