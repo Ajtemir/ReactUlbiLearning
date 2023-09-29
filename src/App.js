@@ -11,12 +11,24 @@ function App() {
         { id: 3, title: 'Javascript 3', body: 'Description 3'},
     ]);
 
+    const [title, setTitle] = useState('Тема.')
+    const addNewPost = (e) => {
+        e.preventDefault()
+        console.log(title)
+    }
+
   return (
     <div className="App">
-        <form action="">
-            <MyInput type="text" placeholder="Название поста"/>
+        <form>
+            {/*Управляемый компонент*/}
+            <MyInput
+                value={title}
+                onChange={e => setTitle(e.target.value)}
+                type="text"
+                placeholder="Название поста"
+            />
             <MyInput type="text" placeholder="Описание поста"/>
-            <MyButton disabled>Создать пост</MyButton>
+            <MyButton onclick={addNewPost}>Создать пост</MyButton>
         </form>
         <PostList posts={posts} title='Посты про JS'/>
     </div>
