@@ -8,7 +8,9 @@ const PostList = ({posts, title}) => {
                 {title}
             </h1>
             {
-                posts.map(post => <PostItem post={post} key={post.id}/>)
+                posts.map((post, index) =>
+                    <PostItem number={index + 1} post={post} key={post.id}
+                    />)
             }
         </div>
     );
