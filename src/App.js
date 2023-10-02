@@ -15,6 +15,16 @@ function App() {
 
     const [selectedSort, setSelectedSort] = useState('')
     const [searchQuery, setSearchQuery] = useState('')
+    
+    function getSortedPosts() {
+        console.log('Отработала функция Sorted Posts')
+        if(selectedSort) {
+            return [...posts].sort((a,b) => a[selectedSort].localeCompare(b[selectedSort]))
+        }
+        return posts
+    }
+
+    const sortedPosts =getSortedPosts()
 
 
     const createPost = (newPost) => {
@@ -28,7 +38,6 @@ function App() {
 
     const sortPosts = (sort) => {
         setSelectedSort(sort)
-        setPosts([...posts].sort((a,b) => a[sort].localeCompare(b[sort])))
     }
 
 
@@ -54,7 +63,7 @@ function App() {
         </div>
         {
             posts.length !== 0
-                ? <PostList remove={removePost} posts={posts} title='Посты про JS'/>
+                ? <PostList remove={removePost} posts={sortedPosts} title='Посты про JS'/>
                 : <h1 style={{textAlign : 'center'}}>Посты не были найдены!</h1>
         }
 
