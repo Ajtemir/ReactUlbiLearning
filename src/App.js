@@ -10,12 +10,13 @@ import PostFilter from "./components/PostFilter";
 import MyModal from "./components/UI/MyModal/MyModal";
 import {usePosts} from "./hooks/usePosts";
 import axios from "axios";
+import PostService from "./API/PostService";
 function App() {
     const [posts, setPosts] = useState([]);
-
     const [filter, setFilter] = useState({sort: '', query:'',})
     const [modal, setModal] = useState(false)
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
+    const [isPostLoading, setIsPostsLoading] = useState(false)
 
     useEffect(()  => {
         fetchPosts()
@@ -27,9 +28,13 @@ function App() {
     }
 
     async function fetchPosts(){
-        const response = await axios.get('https://jsonplaceholder.typicode.com/posts')
-        // console.log(response.data)
-        setPosts(response.data)
+        setIsPostsLoading(true)
+        setTimeout(async () => {
+                const posts = await PostService.getAll()
+                setPosts(posts)
+                setIsPostsLoading(false)
+            }, 1000)
+
     }
 
     // Получаем post from descendant-component
@@ -39,7 +44,7 @@ function App() {
 
   return (
     <div className="App">
-        <button onClick={fetchPosts}>Get Posts</button>
+        {/*<button onClick={fetchPosts}>Get Posts</button>*/}
         <MyButton style={{marginTop: 30}} onClick={() => setModal(true)}>
             Создать пользователя
         </MyButton>
@@ -49,7 +54,11 @@ function App() {
 
         <hr style={{margin: '15px 0'}}/>
         <PostFilter filter={filter} setFilter={setFilter} />
-        <PostList remove={removePost} posts={sortedAndSearchedPosts} title='Посты про JS'/>
+        {
+            isPostLoading
+            ? <h1>Идет загрузка....</h1>
+            : <PostList remove={removePost} posts={sortedAndSearchedPosts} title='Посты про JS'/>
+        }
     </div>
   );
 }
