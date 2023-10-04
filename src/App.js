@@ -13,16 +13,26 @@ import axios from "axios";
 import PostService from "./API/PostService";
 import Loader from "./components/UI/Loader/Loader";
 import {useFetching} from "./hooks/useFetching";
+import {getPageCount, getPagesArray} from "./utils/pages";
 function App() {
     const [posts, setPosts] = useState([]);
     const [filter, setFilter] = useState({sort: '', query:'',})
     const [modal, setModal] = useState(false)
+    const [totalPages, setTotalPages] = useState(0)
+    const [limit, setLimit] = useState(10)
+    const [page, setPage] = useState(1)
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
-    // const [isPostLoading, setIsPostsLoading] = useState(false)
+
+    let pagesArray = getPagesArray(totalPages)
+
     const [fetchPosts, isPostLoading, postError] = useFetching( async () => {
-        const posts = await PostService.getAll()
-        setPosts(posts)
+        const response = await PostService.getAll(limit, page)
+        setPosts(response.data)
+        const totalCount = (response.headers['x-total-count'])
+        setTotalPages(getPageCount(totalCount, limit))
     })
+
+    console.log(totalPages)
     useEffect(()  => {
         fetchPosts()
     }, [])
@@ -35,6 +45,11 @@ function App() {
     // Получаем post from descendant-component
     const removePost = (post) => {
       setPosts(posts.filter(p => p.id !== post.id))
+    }
+
+    const changePage = (page) => {
+        setPage(page)
+        fetchPosts()
     }
 
   return (
@@ -53,11 +68,25 @@ function App() {
             postError &&
                 <h1>Произошла ошибка ${postError}</h1>
         }
+
         {
             isPostLoading
             ? <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}><Loader/></div>
             : <PostList remove={removePost} posts={sortedAndSearchedPosts} title='Посты про JS'/>
         }
+
+        <div className="page__wrapper" style={{marginTop: 30}}>
+            {
+                pagesArray.map(p =>
+                    <span
+                        onClick={() => changePage(p)}
+                        key={p}
+                        className={page === p ? 'page page__current' : 'page'}
+                >{p}
+                </span>)
+            }
+        </div>
+
     </div>
   );
 }
