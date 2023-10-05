@@ -6,13 +6,22 @@ import Posts from "./pages/Posts";
 import Navbar from "./components/UI/Navbar/Navbar";
 import Error from "./pages/Error";
 import AppRouter from "./components/AppRouter";
+import {AuthContext} from "./context";
 function App() {
-    return (
+    const [isAuth, setIsAuth] = useState(false)
 
-        <BrowserRouter>
+
+    return (
+        <AuthContext.Provider value={{
+            isAuth,
+            setIsAuth
+        }}>
+            <BrowserRouter>
                 <Navbar/>
                 <AppRouter/>
-        </BrowserRouter>
+            </BrowserRouter>
+        </AuthContext.Provider>
+
     )
 }
 
