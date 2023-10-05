@@ -7,7 +7,6 @@
 #root {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 }
 
@@ -22,6 +21,10 @@
     margin-top: 15px;
     justify-content: space-between;
     align-items: center;
+}
+
+post__btns {
+    display: flex;
 }
 
 .post-enter {

@@ -51,12 +51,15 @@ const Posts = () => {
     return (
         <div className="App">
             {/*<button onClick={fetchPosts}>Get Posts</button>*/}
-            <MyButton style={{marginTop: 30}} onClick={() => setModal(true)}>
-                Создать пользователя
-            </MyButton>
-            <MyModal visible={modal} setVisible={setModal}>
-                <PostForm create={createPost}/>
-            </MyModal>
+            <div className="post__btns">
+                <MyButton style={{marginTop: 30}} onClick={() => setModal(true)}>
+                    Создать пользователя
+                </MyButton>
+                <MyModal visible={modal} setVisible={setModal}>
+                    <PostForm create={createPost}/>
+                </MyModal>
+            </div>
+
 
             <hr style={{margin: '15px 0'}}/>
             <PostFilter filter={filter} setFilter={setFilter} />
