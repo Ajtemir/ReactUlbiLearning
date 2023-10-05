@@ -4,12 +4,34 @@ import About from "../pages/About";
 import Posts from "../pages/Posts";
 import Error from "../pages/Error";
 import PostIdPage from "../pages/PostIdPage";
-import {routes} from "../router";
+import {publicRoutes, privateRoutes} from "../router";
 
 const AppRouter = () => {
+    const isAuth = true;
     return (
         <Routes>
-            {routes.map(route => <Route element={route.component} path={route.path} exact={route.exact}/>)}
+                isAuth
+                    ?
+                    {privateRoutes.map(route =>
+                            <Route
+                                element={route.component}
+                                path={route.path}
+                                exact={route.exact}
+                            />
+                        )}
+                    :
+                    {publicRoutes.map(route =>
+                        <Route
+                            element={route.component}
+                            path={route.path}
+                            exact={route.exact}
+                        />
+                    )
+            }
+
+
+
+
             <Route path="*" element={<Navigate to="/error" />} />
             <Route path="/error" element={<Error />} />
         </Routes>
